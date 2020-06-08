@@ -51,3 +51,19 @@
 .word-container-cont {
     width: 100%;
 }
+
+.puzzle-container__buttons-container {
+    display: flex;
+}
+.check-container {
+    margin-top: 20px;
+    .button {
+    @extend %font-add;
+    min-width: 60px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    background-color: deepskyblue;
+    }
+}
+

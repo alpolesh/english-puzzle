@@ -12,11 +12,10 @@ class Part {
     }
   
     putToPazzle(sentance, pos) {
-      this.inPazzle = true;
-      this.parent.putToPazzle(this);
-      this.targetCurr = [this.target[0], this.parent.pazzle[10 - this.target[0] - 1].length - 1];
-      this.check();
-      
+        this.inPazzle = true;
+        this.parent.putToPazzle(this);
+        this.targetCurr = [this.target[0], this.parent.pazzle[10 - this.target[0] - 1].length - 1];
+        this.check();
     }
   
     check() {
