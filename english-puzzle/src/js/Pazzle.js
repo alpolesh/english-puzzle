@@ -4,6 +4,7 @@ import templates from './templates';
 
 class Pazzle {
     constructor(sentenses) {
+      this.rightRound = [[], [], [], [], [], [], [], [], [], []];
       this.round = this.createRound(sentenses);
       this.pazzle = [[], [], [], [], [], [], [], [], [], []];
       this.currentSentance = this.round.pop();
@@ -20,9 +21,10 @@ class Pazzle {
             this,
             sentanceIndex,
             wordIndex,
-            word.match(/(?<=>).+(?=<)/) || word,
+            word,
             arr.length - 1 === wordIndex
           );
+          this.rightRound[sentanceIndex].push(part);
           const length = arr.length - 1;
           let randIndex = this.randomInteger(0, length);
           while (round[sentanceIndex][randIndex]) {
@@ -42,33 +44,44 @@ class Pazzle {
       this.currentSentance.splice(this.currentSentance.indexOf(item), 1);
   
       this.render();
-      
     }
   
-    render() {
+    render(argument) {
       const pazzleContainer = document.querySelector(".puzzle-container__results");
   
       const currentSentanceContainer = document.querySelector(".puzzle-container__workspace");
   
       currentSentanceContainer.innerHTML = "";
       pazzleContainer.innerHTML = "";
-      // console.log(this);
       this.pazzle.forEach((sentance) => {
         const resultSentence = document.createElement("div");
         resultSentence.classList.add("result-sentence");
-        sentance.forEach((word) => resultSentence.append(word.render()));
+        sentance.forEach((word) => {
+            if (argument === 'check') resultSentence.append(word.render(argument));
+            else resultSentence.append(word.render())
+        });
         pazzleContainer.append(resultSentence);
       });
-  
-      this.currentSentance.forEach((word) => {
-        currentSentanceContainer.append(word.render());
-      });
-      
+
+      if (argument === 'dont know') {
+        this.pazzle[10 - this.round.length - 1].length = 0;  
+        document.querySelectorAll('.result-sentence')[10 - this.round.length - 1].innerHTML = "";
+        this.rightRound[this.round.length].forEach((el) => {
+            document.querySelectorAll('.result-sentence')[10 - this.round.length - 1].append(el.render(argument));
+        })
+      }
+      if (!argument) {
+        this.currentSentance.forEach((word) => {
+            currentSentanceContainer.append(word.render());
+        });
+      }
+        
+      document.querySelector('.puzzle-container__buttons-container').innerHTML = templates.buttonDontKnow;
       if (this.currentSentance.length === 0) {
-        document.querySelector('.puzzle-container__buttons-container').innerHTML = templates.buttonCheck;
+        document.querySelector('.puzzle-container__buttons-container').innerHTML += templates.buttonCheck;
         this.check();
       }
-
+      this.dontKnow();
     }
 
     randomInteger(min, max) {
@@ -78,15 +91,13 @@ class Pazzle {
 
     check() {
         document.querySelector('.check-container').addEventListener('click', () => {
-            document.querySelectorAll('.result-sentence .word-container').forEach(el => {
-                let part = this.pazzle[this.currentSentenceIndex].find(item => item.content === el.textContent);
-                if (part === undefined) {
-                   part = this.pazzle[this.currentSentenceIndex].find(item => item.content[0] === el.textContent);
-                } 
-                if (part.corect === true) {
-                    el.style = "border: 1px solid blue;"
-                } else el.style = "border: 1px solid red;"
-            })
+            this.render('check');
+        })
+    }
+
+    dontKnow() {
+        document.querySelector('.dont-know-container').addEventListener('click', () => {
+            this.render('dont know');
         })
     }
   }

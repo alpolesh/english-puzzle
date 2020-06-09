@@ -37,6 +37,11 @@
     justify-content: center;
     align-items: center;
     background-color: yellowgreen;
+    margin-right: 3px;
+    
+}
+.word-container:last-child {
+    margin-right: 0px;
 }
 
 .puzzle-container__workspace {
@@ -55,15 +60,15 @@
 .puzzle-container__buttons-container {
     display: flex;
 }
-.check-container {
+.button-container {
     margin-top: 20px;
-    .button {
+    margin-right: 10px;
+}
+.button {
     @extend %font-add;
-    min-width: 60px;
+    padding: 5px;
     height: 40px;
     border: none;
     border-radius: 5px;
     background-color: deepskyblue;
-    }
 }
-
