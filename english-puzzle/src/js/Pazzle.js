@@ -1,6 +1,8 @@
 /* eslint-disable class-methods-use-this */
 import Part from './Part';
 import templates from './templates';
+import store from './store';
+import createNewRound from './createNewRound';
 
 class Pazzle {
     constructor(sentenses) {
@@ -8,7 +10,7 @@ class Pazzle {
       this.round = this.createRound(sentenses);
       this.pazzle = [[], [], [], [], [], [], [], [], [], []];
       this.currentSentance = this.round.pop();
-      this.countWord = this.currentSentance.length;
+      this.sentences = sentenses;
     }
   
     createRound(sentenses) {
@@ -22,7 +24,8 @@ class Pazzle {
             sentanceIndex,
             wordIndex,
             word,
-            arr.length - 1 === wordIndex
+            arr.length - 1 === wordIndex,
+            arr.length
           );
           this.rightRound[sentanceIndex].push(part);
           const length = arr.length - 1;
@@ -33,6 +36,7 @@ class Pazzle {
           round[sentanceIndex][randIndex] = part;
         });
       });
+
       return round;
     }
   
@@ -63,25 +67,28 @@ class Pazzle {
         pazzleContainer.append(resultSentence);
       });
 
+      document.querySelector('.puzzle-container__buttons-container').innerHTML = templates.buttonDontKnow;
+
+      if (this.currentSentance.length === 0) {
+        document.querySelector('.puzzle-container__buttons-container').innerHTML += templates.buttonCheck;
+        this.check();
+      }
+      this.dontKnow();
+
       if (argument === 'dont know') {
         this.pazzle[10 - this.round.length - 1].length = 0;  
         document.querySelectorAll('.result-sentence')[10 - this.round.length - 1].innerHTML = "";
         this.rightRound[this.round.length].forEach((el) => {
             document.querySelectorAll('.result-sentence')[10 - this.round.length - 1].append(el.render(argument));
         })
+        document.querySelector('.puzzle-container__buttons-container').innerHTML = templates.buttonContinue;
+        this.continue();
       }
       if (!argument) {
         this.currentSentance.forEach((word) => {
             currentSentanceContainer.append(word.render());
         });
       }
-        
-      document.querySelector('.puzzle-container__buttons-container').innerHTML = templates.buttonDontKnow;
-      if (this.currentSentance.length === 0) {
-        document.querySelector('.puzzle-container__buttons-container').innerHTML += templates.buttonCheck;
-        this.check();
-      }
-      this.dontKnow();
     }
 
     randomInteger(min, max) {
@@ -96,8 +103,27 @@ class Pazzle {
     }
 
     dontKnow() {
-        document.querySelector('.dont-know-container').addEventListener('click', () => {
-            this.render('dont know');
+        if (document.querySelector('.dont-know-container')) {
+            document.querySelector('.dont-know-container').addEventListener('click', () => {
+                this.render('dont know');
+            })
+        }
+    }
+
+    continue() {
+        document.querySelector('.continue-container').addEventListener('click', () => {
+            if (store.round % 29 === 0 && this.round.length === 0) {
+                alert('new LVL');
+                store.round = 0;
+                store.level += 1;
+                createNewRound(store.level, store.round);
+            } else if (this.round.length === 0) {
+                    store.round += 1;
+                    createNewRound(store.level, store.round);
+            } else {
+                this.currentSentance = this.round.pop();
+                this.render();
+            }
         })
     }
   }

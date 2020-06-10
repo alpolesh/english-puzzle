@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-expressions */
 
 
 class Part {
-    constructor(parent, sentance, pos, content, isLast) {
+    constructor(parent, sentance, pos, content, isLast, wordCount) {
       this.target = [sentance, pos];
       this.isLast = isLast;
       this.targetCurr = [];
@@ -9,6 +10,7 @@ class Part {
       this.inPazzle = false;
       this.content = content;
       this.parent = parent;
+      this.wordCount = wordCount;
     }
   
     putToPazzle(sentance, pos) {
@@ -29,7 +31,7 @@ class Part {
       maskEnd.classList.add("mask");
       const wordContainer = document.createElement("div");
       wordContainer.classList.add("word-container");
-      wordContainer.style = `width: ${900 / this.parent.countWord}px;`;
+      wordContainer.style = `width: ${900 / this.wordCount}px;`;
       const word = document.createElement("span");
       word.classList.add("word");
       word.innerHTML = this.content;
