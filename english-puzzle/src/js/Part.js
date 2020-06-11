@@ -1,4 +1,11 @@
 /* eslint-disable no-unused-expressions */
+import paintings1 from './paintings/level1';
+import paintings2 from './paintings/level2';
+import paintings3 from './paintings/level3';
+import paintings4 from './paintings/level4';
+import paintings5 from './paintings/level5';
+import paintings6 from './paintings/level6';
+import store from './store';
 
 
 class Part {
@@ -31,25 +38,15 @@ class Part {
       maskEnd.classList.add("mask");
       const wordContainer = document.createElement("div");
       wordContainer.classList.add("word-container");
-      wordContainer.style = `width: ${900 / this.wordCount}px;`;
+      wordContainer.style = `width: ${900 / this.wordCount}px; background-image: url("./img/${paintings1[store.round].imageSrc}"); background-position: top -${(9 - this.target[0]) * 43}px left -${900 / this.wordCount * (this.target[1])}px;`;
       const word = document.createElement("span");
       word.classList.add("word");
       word.innerHTML = this.content;
       // console.log(word);
       if (argument === 'check') {
-          if (this.correct) wordContainer.style = "border: 1px solid blue;"
-          else wordContainer.style = "border: 1px solid red;"
+          if (this.correct) wordContainer.classList.add('word-container_check-right')
+          else wordContainer.classList.add('word-container_check-false')
       }
-  
-    //   if (this.target[1] === 0)
-    //     wordContainer.style =
-    //       `clip-path: polygon(calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%, 0 0); width: ${900 / this.parent.countWord}px;`;
-    //   else if (this.isLast)
-    //     wordContainer.style =
-    //       `clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 100%, 20px 50%, 0 0); width: ${900 / this.parent.countWord}px;`;
-    //   else
-    //     wordContainer.style =
-    //       `clip-path: polygon(calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%, 20px 50%, 0 0); width: ${900 / this.parent.countWord}px;`;
       wordContainer.append(maskStart);
       wordContainer.append(word);
       wordContainer.append(maskEnd);

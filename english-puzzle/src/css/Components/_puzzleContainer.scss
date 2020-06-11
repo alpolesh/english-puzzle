@@ -10,8 +10,10 @@
 
 .puzzle-container__results {
     width: 100%;
-    height: 427px;
-    background-color: gray; 
+    height: 433px;
+    // background-color: gray; 
+    border: 3px solid black;
+    background-size: 900px 433px;
 }
 
 .result-sentence {
@@ -24,6 +26,8 @@
 
 .word {
     display: inline-block;
+    -webkit-text-stroke: 0.6px white;
+    font-weight: 1000;
 }
 .mask {
     width: 20px;
@@ -37,9 +41,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: yellowgreen;
     margin-right: 3px;
-    
+    background-size: 900px 427px ;
+}
+
+.word-container_check-right {
+    border: 3px solid #3cc206;
+}
+.word-container_check-false {
+    border: 3px solid red;
 }
 .word-container:last-child {
     margin-right: 0px;

@@ -99,6 +99,11 @@ class Pazzle {
     check() {
         document.querySelector('.check-container').addEventListener('click', () => {
             this.render('check');
+            // console.log(this.pazzle[this.currentSentenceIndex][0]);
+            if (!this.pazzle[this.currentSentenceIndex].find((el) => el.correct === false)) {
+                document.querySelector('.puzzle-container__buttons-container').innerHTML = templates.buttonContinue;
+                this.continue();
+            } 
         })
     }
 
@@ -112,7 +117,7 @@ class Pazzle {
 
     continue() {
         document.querySelector('.continue-container').addEventListener('click', () => {
-            if (store.round % 29 === 0 && this.round.length === 0) {
+            if (store.round === 29 && this.round.length === 0) {
                 alert('new LVL');
                 store.round = 0;
                 store.level += 1;
