@@ -38,7 +38,11 @@ class Part {
       maskEnd.classList.add("mask");
       const wordContainer = document.createElement("div");
       wordContainer.classList.add("word-container");
-      wordContainer.style = `width: ${900 / this.wordCount}px; background-image: url("./img/${paintings1[store.round].imageSrc}"); background-position: top -${(9 - this.target[0]) * 43}px left -${900 / this.wordCount * (this.target[1])}px;`;
+
+      wordContainer.style = `width: ${900 / this.wordCount}px; 
+      background-image: url("https://raw.githubusercontent.com/alpolesh/rslang_data_paintings/master/${paintings1[store.round].cutSrc}"); 
+      background-position: top -${(9 - this.target[0]) * 43}px left -${900 / this.wordCount * (this.target[1])}px;`;
+      
       const word = document.createElement("span");
       word.classList.add("word");
       word.innerHTML = this.content;
